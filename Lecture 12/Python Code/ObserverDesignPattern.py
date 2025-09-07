@@ -1,5 +1,6 @@
 # Note: In python we can use property decorators in place of getters and setters.
 # https://www.geeksforgeeks.org/python/observer-method-python-design-patterns/
+# Use GPT: to make it more pythonic and simpler, this is a basic implementation of observer pattern in C++/Java
 
 from typing import List
 
