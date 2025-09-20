@@ -13,3 +13,21 @@ s1 = Singleton()
 s2 = Singleton()
 
 print(s1 == s2)  # True, both are the same instance
+
+
+
+## Other way of creating singleton
+
+class SingletonClass(object):
+  def __new__(cls):
+    if not hasattr(cls, 'instance'):
+      cls.instance = super(SingletonClass, cls).__new__(cls)
+    return cls.instance
+  
+singleton = SingletonClass()
+new_singleton = SingletonClass()
+
+print(singleton is new_singleton)
+
+singleton.singleton_variable = "Singleton Variable"
+print(new_singleton.singleton_variable)
