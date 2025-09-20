@@ -17,6 +17,7 @@ print(s1 == s2)  # True, both are the same instance
 
 
 ## Other way of creating singleton
+# https://www.geeksforgeeks.org/python/singleton-pattern-in-python-a-complete-guide/
 
 class SingletonClass(object):
   def __new__(cls):
