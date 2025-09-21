@@ -19,7 +19,7 @@ private:
     HttpRequest() { }
 
 public:
-    friend class HttpRequestBuilder;
+    friend class HttpRequestBuilder;  // Using friend class to allow access to private members
 
     // Method to execute the HTTP request
     void execute() {
@@ -51,7 +51,7 @@ private:
     HttpRequest req;
 
 public:    
-    // Method chaining
+    // Method chaining with reference return type so that we can chain multiple calls
     HttpRequestBuilder& withUrl(const string& u) {
         req.url = u; 
         return *this;
@@ -83,6 +83,7 @@ public:
     }
     
     // Build method to create the immutable HttpRequest object
+    // Performs validation at one place --> Resolves the Scatter-Validation problem
     HttpRequest build() {
         // Validation logic can be added here
         if (req.url.empty()) {
@@ -95,6 +96,7 @@ public:
 
 int main() {
     // Using Builder Pattern (nested class)
+    // Reason for using so many with_x methods with dot(.) --> because each method returns the builder object itself
     HttpRequest request = HttpRequestBuilder()
         .withUrl("https://api.example.com")
         .withMethod("POST")
@@ -103,8 +105,17 @@ int main() {
         .withQueryParams("key", "12345")
         .withBody("{\"name\": \"Aditya\"}")
         .withTimeout(60)
-        .build();
+        .build();   // Build method converts the builder object to the HttpRequest object at the end
+                    // If we don't call build(), we will have a builder object instead of HttpRequest object
+                    // Also called as Termination Method
 
     request.execute(); // Guaranteed to be in a consistent state
+
+
+    // Another way of creating HttpRequest object
+    HttpRequestBuilder* builder = new HttpRequestBuilder();
+    HttpRequestBuilder builder2 = builder->withUrl("https://api.example.com/users");
+    HttpRequestBuilder builder3 = builder2.withMethod("GET");
+    HttpRequest request2 = builder3.build();    // Build method converts the builder object to the HttpRequest object at the end
 }
 
